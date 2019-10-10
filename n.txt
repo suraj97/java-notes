@@ -1,0 +1,129 @@
+ create table dept( deptno number(2),
+    dname varchar2(14),
+    loc varchar2(13),
+    create_date DATE default sysdate);
+
+
+create table employees
+   ( employee_id number(6)
+       constraint emp_employee_id primary key,
+    first_name varchar2(20),
+    last_name varchar2(25)
+       constraint emp_last_name_nn NOT NULL,
+    email varchar2(25)
+       constraint emp_email_nn NOT NULL
+       constraint emp_email_uk UNIQUE,
+   phone_number varchar2(20),
+   hire_date DATE
+      constraint emp_hire_date_nn NOT NULL,
+   job_id varchar2(10)
+      constraint emp_job_nn NOT NULL,
+   salary number(8,2)
+      constraint emp_salary_ck check(salary>10000),
+   commission_pct number(2,2),
+   manager_id number(6)
+     constraint emp_manager_fk references employees(employee_id),
+   dept_no number(4)
+      constraint emp_dept_fk references
+   dept(deptno));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mongodb queries:
+
+insert one command:
+ db.examples.insertOne({item:"c",qty:100,tags:["cotton"],size:{h:30,w:37.5,uom:"cm"}})
+
+db.examples.insertMany([{item:"j",qty:25,tags:["black","white"],size:{h:17,w:28,uom:"cm"}},
+{item:"j",qty:25,tags:["black","white"],size:{h:17,w:28,uom:"cm"}},
+ {item:"mouse",qty:25,tags:["gel","grey"],size:{h:17,w:29.85,uom:"cm"}}
+])
+Syntax:
+db.examples.find({})
+
+db.examples.find().pretty()
+
+db.Quinnox.find({name:"john"})
+
+for OR:
+db.inventory.find({status:{$in:["A","D"]}})
+
+for AND:
+db.inventory.find({status:"A",qty:{$lt:30}})
+
+AND and OR in 1:
+db.inventory1.find({status:"A",$or:[{qty:{$lt:30}},{item:/^p/}] })
+
+for updating :
+db.inventory1.updateOne(
+ { item: "paper"},
+ {
+ $set: { "size.uom": "cm", status: "p"
+ },
+ $currentDate: { lastModified: true}
+ }
+ )
+
+
+
+db.inventory1.updateMany(
+ {"qty": {$lt: 50}},
+ {
+ $set:{ "size.uom":"in",status:"p"},
+  $currentDate: { lastModified: true}
+ }
+)
+
+
+for replace:
+
+db.inventory1.replaceOne(
+ { item: "paper"},
+ { item:"paper",instock:[{ warehouse: "A",qty:60},{
+   warehouse:"B",qty:40}]}
+
+for deleting one:
+db.inventory1.deleteOne({status:"D"})
+
+for deleting many:
+db.inventory.deleteMany({})
+
+limit() method):
+db.inventory1.find().limit(3)
+
+skip():
+  db.inventory1.find().skip(3)
+
+db.inventory1.find().limit(5).skip(2)
+
+for sorting:
+db.inventory1.find().sort({qty:1})//ascending
+
+db.inventory1.find().sort({qty:-1})//descending
+
+
+
+ 
+
+
+
+
+
+
+
+
+

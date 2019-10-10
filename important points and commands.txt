@@ -1,0 +1,279 @@
+ create table dept( deptno number(2),
+    dname varchar2(14),
+    loc varchar2(13),
+    create_date DATE default sysdate);
+
+
+create table employees
+   ( employee_id number(6)
+       constraint emp_employee_id primary key,
+    first_name varchar2(20),
+    last_name varchar2(25)
+       constraint emp_last_name_nn NOT NULL,
+    email varchar2(25)
+       constraint emp_email_nn NOT NULL
+       constraint emp_email_uk UNIQUE,
+   phone_number varchar2(20),
+   hire_date DATE
+      constraint emp_hire_date_nn NOT NULL,
+   job_id varchar2(10)
+      constraint emp_job_nn NOT NULL,
+   salary number(8,2)
+      constraint emp_salary_ck check(salary>10000),
+   commission_pct number(2,2),
+   manager_id number(6)
+     constraint emp_manager_fk references employees(employee_id),
+   dept_no number(4)
+      constraint emp_dept_fk references
+   dept(deptno));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mongodb queries:
+
+insert one command:
+ db.examples.insertOne({item:"c",qty:100,tags:["cotton"],size:{h:30,w:37.5,uom:"cm"}})
+
+db.examples.insertMany([{item:"j",qty:25,tags:["black","white"],size:{h:17,w:28,uom:"cm"}},
+{item:"j",qty:25,tags:["black","white"],size:{h:17,w:28,uom:"cm"}},
+ {item:"mouse",qty:25,tags:["gel","grey"],size:{h:17,w:29.85,uom:"cm"}}
+])
+Syntax:
+db.examples.find({})
+
+db.examples.find().pretty()
+
+db.Quinnox.find({name:"john"})
+
+for OR:
+db.inventory.find({status:{$in:["A","D"]}})
+
+for AND:
+db.inventory.find({status:"A",qty:{$lt:30}})
+
+AND and OR in 1:
+db.inventory1.find({status:"A",$or:[{qty:{$lt:30}},{item:/^p/}] })
+
+for updating :
+db.inventory1.updateOne(
+ { item: "paper"},
+ {
+ $set: { "size.uom": "cm", status: "p"
+ },
+ $currentDate: { lastModified: true}
+ }
+ )
+
+
+
+db.inventory1.updateMany(
+ {"qty": {$lt: 50}},
+ {
+ $set:{ "size.uom":"in",status:"p"},
+  $currentDate: { lastModified: true}
+ }
+)
+
+
+for replace:
+
+db.inventory1.replaceOne(
+ { item: "paper"},
+ { item:"paper",instock:[{ warehouse: "A",qty:60},{
+   warehouse:"B",qty:40}]}
+
+for deleting one:
+db.inventory1.deleteOne({status:"D"})
+
+for deleting many:
+db.inventory.deleteMany({})
+
+limit() method):
+db.inventory1.find().limit(3)
+
+skip():
+  db.inventory1.find().skip(3)
+
+db.inventory1.find().limit(5).skip(2)
+
+for sorting:
+db.inventory1.find().sort({qty:1})//ascending
+
+db.inventory1.find().sort({qty:-1})//descending
+
+
+
+HTML:
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>web page designed by ---> suraj </title>
+
+<h1 align="center"> welcome to quinnox </h1>
+<hr color="red">
+</head>
+<body bgcolor="Aqua">
+    <h3><font color="blue"> website designing</font></h3>
+    <p> Separating paragraphs with blank lines is easiest 
+        for readers to scan, but they can also be separated
+        by indenting their first lines. This is often used 
+        to take up less space, such as to save paper in print.       
+        Writing that is intended to be edited, such as school
+        papers and rough drafts, uses both blank lines and 
+        indentation for separation. In finished works, combining 
+        both is considered redundant and amateurish.</p>
+</body>
+<img src="tiger.jfif" width="20%" height="20%"> <A href="www.google.com"> latest </A>
+<p>
+    In very old writing, paragraphs were separated with a 
+    special character:  the <i>pilcrow</i>. Nowadays, this
+    is considered claustrophobic and hard to read.
+</p>
+<h2>static content </h2>
+<ul>
+    <li>html</li>
+    <LI>java script</LI>
+    <LI>boot</LI>
+</ul>
+<h2>dynamic content </h2>
+<Ol type="I" start="3">
+    <li>JSP</li>
+    <LI>ASP.net </LI>
+    <LI>boot</LI>
+</OL>
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html lang=:"en">
+<HEAD>
+    <meta charset="UTF-8" name="keywords" content="HTML,video,Themes">
+<title>formating tags</title>
+<style>
+#test{background-color: blue;color:red;padding:10px;
+text-align:justify;}
+</style>
+</HEAD>
+<body bgcolor="palegreen">
+    <a id="top"><h2 align="center"><font face="times new roman" color="ORANGERED"> 
+        webdesign tips </font></h2></a>
+<hr>
+<A HREF="sample.html"> home page</A><br/>
+<A href="#video"> video</A><br/>
+<<A href="#doc"> professional document</A><br/>
+<A href="#themes"> themes</A><br/>
+<A href="#rv"> reading view</A><br/>
+<A ID="video"><H4> video</H4></A>
+<p> Video is an electronic medium for the recording, copying, playback, broadcasting, and display of moving visual media.[1] Video was first developed for mechanical television systems, which were quickly replaced by cathode ray tube (CRT) systems which were later replaced by flat panel displays of several types.
+video systems vary in display resolution, aspect ratio, refresh rate, color capabilities and other qualities. Analog and digital variants exist and can be carried on a variety of media, including radio broadcast, magnetic tape, optical discs, computer files, and network streaming.
+<font size="5"><keyword</font> to 
+<I>search</I>online for the video that best fits your document.
+</p>
+<A ID="doc"><H4> document</H4></A>
+<p>In computing, DOC or doc (an abbreviation of "document") is a filename extension for word processing documents, most commonly in the proprietary Microsoft Word Binary File Format.[4] Historically, the extension was used for documentation in plain text, particularly of programs or computer hardware on a wide range of operating systems. During the 1980s, WordPerfect used DOC as the extension of their proprietary format. Later, in 1983, Microsoft chose to use the DOC extension for their proprietary Microsoft Word format. These uses for the extension have largely disappeared from the PC world.
+</p>
+<A ID="test"><H4> document</H4></A>
+<p>
+    A test or examination (informally, exam or evaluation) is an assessment intended to measure a test-taker's knowledge, skill, aptitude, physical fitness, or classification in many other topics (e.g., beliefs).[1] A test may be administered verbally, on paper, on a computer, or in a predetermined area that requires a test taker to demonstrate or perform a set of skills. Tests vary in style, rigor and requirements
+    save time in word with new <EM> buttons</EM>that show up.
+</p>
+<div id="test">
+    <h4>themes</h4>
+    <P>
+     For example, in a closed book test, a test taker is usually required to rely upon memory to respond to specific items whereas in an open book test, a test taker may use one or more supplementary tools such as a reference book or calculator when responding. A test may be administered formally or informally. An example of an informal test would be a reading test administered by a parent to a child. A formal test might be a final examination administered by a teacher in a classroom or an I.Q. 
+    </P>
+    <A ID="rv"><h4> reading view</h4></A>
+    <p>
+    A reader is someone who visits Wikipedia articles to read rather than edit the content. Editors, often referred to as Wikipedians if logged in, also read Wikipedia of course, but other than reading they also edit the pages to help build the encyclopedia.
+    Wikipedia currently has 5,933,116 articles that are edited by 128,690 active editors. Since 2007 Wikipedia has been one of the ten most popular websites[1] and the Main Page receives hundreds of millions of hits per month. In June 2012 it had 227 million hits.[2] Individual articles vary in popularity depending on the shifting Zeitgeist.         
+    </p>
+    </div>
+    <h3> chemical name of water is: H<sub>2</sub>0.</h3>
+    <h3> the 2<sup>3</sup>=8</h3>
+<p align="right"><A HREF="#TOP">back to top</A></p>
+<table border="1" cell padding="10">
+        <TR bgcolor="yellow">
+            <th> emp id</th>
+            <th> emp name</th>
+            <th> email id</th>
+    </TR>
+    <TR>
+        <TD>1001</TD>
+        <td>michael</td>
+        <td>mike@gmail.com</td>
+    </TR>
+    <TR>
+        <TD rowspan="2">1002</TD>
+        <TD rowspan="2">ravi</TD>
+        <TD rowspan="2">ravi@gmail.com</TD> 
+                
+
+    </TR>
+    </table>
+</body>
+</html>
+
+
+css code:
+H2{color:limegreen;
+font-family: "arial";
+font-size: normal;
+ }
+ .warning{color: red;
+font-weight: bold;
+font-style: italic;
+}
+
+LINKING IT:
+!DOCTYPE HTML>
+<html>
+<head>
+    <title> changing the rules</title>
+    <link rel=Stylesheet href="sheet1.css" type="text/css">
+</head>
+    <h2> changing the rules is fun</h2>
+    <BR>
+        <p class="warning"> changing rules may not be such fun
+            <h2> the h2 element again</h2>
+        </p>
+        </html>
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
